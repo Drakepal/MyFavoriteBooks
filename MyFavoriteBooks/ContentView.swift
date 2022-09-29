@@ -19,6 +19,11 @@ struct BookRow: View {
     let book: Book
     
     var body: some View {
+        NavigationLink(destination: DetailView(book: book)) {
+            
+        
+        
+        
         HStack {
             Book.Image(title: book.title)
             VStack(alignment: .leading) {
@@ -29,6 +34,7 @@ struct BookRow: View {
                     .foregroundColor(.secondary)
             }
             .lineLimit(1)
+            }
         }
         .padding(.vertical)
     }
