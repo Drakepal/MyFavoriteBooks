@@ -13,11 +13,12 @@ struct DetailView: View {
     
     
     var body: some View {
-        VStack {
-            TitleAndAuthorStack(book: book)
+        VStack(alignment: .leading) {
+            TitleAndAuthorStack(book: book, titleFont: .title, authorFont: .title2)
             Book.Image(title: book.title)
             Spacer()
         }
+        .padding()
     }
 }
 

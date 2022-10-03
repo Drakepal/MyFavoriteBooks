@@ -9,16 +9,18 @@ import SwiftUI
 
 
 struct TitleAndAuthorStack: View {
-    
+   
     let book: Book
+    let titleFont: Font
+    let authorFont: Font
     
     var body: some View {
         HStack {
         VStack(alignment: .leading) {
             Text(book.title)
-                .font(.title2)
+                .font(titleFont)
             Text(book.author)
-                .font(.title3)
+                .font(authorFont)
                 .foregroundColor(.secondary)
             }
         }
@@ -32,6 +34,8 @@ extension Book {
     struct Image: View {
         
         let title: String
+        var size: CGFloat?
+        
         
         var body: some View {
             let symbol = SwiftUI.Image(title: title)
@@ -42,7 +46,7 @@ extension Book {
             symbol
                 .resizable()
                 .scaledToFit()
-                .frame(width: 80, height: 80)
+                .frame(width: size, height: size)
                 .foregroundColor(.secondary.opacity(0.5))
         }
     }
@@ -64,6 +68,8 @@ extension Image {
 struct Book_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
+           TitleAndAuthorStack(book: .init(), titleFont: .title, authorFont: .title2)
+            
             Book.Image(title: Book().title)
             Book.Image(title: "")
             Book.Image(title: "📖")
