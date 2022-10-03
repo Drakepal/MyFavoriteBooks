@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        List(Library().sortedBooks, id: \.title) { book in
-            BookRow(book: book)
+        NavigationView {
+            List(Library().sortedBooks, id: \.title) { book in
+                BookRow(book: book)
+            }
+            .navigationTitle("My Favorite Books")
         }
     }
 }
@@ -19,22 +22,13 @@ struct BookRow: View {
     let book: Book
     
     var body: some View {
-        NavigationLink(destination: DetailView(book: book)) {
-            
-        
-        
-        
-        HStack {
-            Book.Image(title: book.title)
-            VStack(alignment: .leading) {
-                Text(book.title)
-                    .font(.title2)
-                Text(book.author)
-                    .font(.title3)
-                    .foregroundColor(.secondary)
-            }
-            .lineLimit(1)
-            }
+        NavigationLink(
+            destination: DetailView(book: book)) {
+                HStack {
+                    Book.Image(title: book.title)
+                    TitleAndAuthorStack(book: book)
+                        .lineLimit(1)
+                }
         }
         .padding(.vertical)
     }
@@ -45,3 +39,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

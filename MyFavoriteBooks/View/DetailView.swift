@@ -14,6 +14,7 @@ struct DetailView: View {
     
     var body: some View {
         VStack {
+            TitleAndAuthorStack(book: book)
             Book.Image(title: book.title)
             Spacer()
         }
