@@ -5,6 +5,9 @@
 //  Created by PM Student on 9/29/22.
 //
 
+import SwiftUI
+
+
 struct Library {
     var sortedBooks: [Book] { booksCache }
     private var booksCache: [Book] = [
@@ -19,4 +22,7 @@ struct Library {
         .init(title: "The Blood of Olympus", author: "Rick Riordan"),
         .init(title: "Ready Player One", author: "Ernest Cline")
     ]
+    
+    var images: [Book: Image] = [:]
+    
 }

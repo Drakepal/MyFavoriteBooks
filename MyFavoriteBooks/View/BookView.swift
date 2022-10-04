@@ -32,22 +32,31 @@ struct TitleAndAuthorStack: View {
 extension Book {
     
     struct Image: View {
-        
+        let image: SwiftUI.Image?
         let title: String
         var size: CGFloat?
         
         
         var body: some View {
-            let symbol = SwiftUI.Image(title: title)
-            ??
+            
+            if let image = image {
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+            } else {
+                
+                let symbol = SwiftUI.Image(title: title)
+                ??
                 .init(systemName: "books.vertical")
-            
-            
-            symbol
+                
+                
+                symbol
                 .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
                 .foregroundColor(.secondary.opacity(0.5))
+            }
         }
     }
 }
@@ -63,6 +72,13 @@ extension Image {
         self.init(systemName: symbolName)
     }
 }
+
+extension Book.Image {
+    init(title: String) {
+        self.init(image:nil, title: title)
+    }
+}
+
 
 
 struct Book_Previews: PreviewProvider {
