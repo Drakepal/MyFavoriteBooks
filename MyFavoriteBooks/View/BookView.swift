@@ -35,6 +35,7 @@ extension Book {
         let image: SwiftUI.Image?
         let title: String
         var size: CGFloat?
+        let cornerRadius: CGFloat
         
         
         var body: some View {
@@ -44,6 +45,7 @@ extension Book {
                     .resizable()
                     .scaledToFit()
                     .frame(width: size, height: size)
+                    .cornerRadius(cornerRadius)
             } else {
                 
                 let symbol = SwiftUI.Image(title: title)
@@ -75,7 +77,7 @@ extension Image {
 
 extension Book.Image {
     init(title: String) {
-        self.init(image:nil, title: title)
+        self.init(image:nil, title: title, cornerRadius: .init())
     }
 }
 
