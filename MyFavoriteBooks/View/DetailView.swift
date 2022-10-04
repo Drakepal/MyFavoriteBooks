@@ -27,6 +27,11 @@ struct DetailView: View {
                 TitleAndAuthorStack(book: book, titleFont: .title, authorFont: .title2)
             }
             VStack {
+                Divider()
+                    .padding(.vertical)
+                TextField("Review...", text: $book.microReview)
+                Divider()
+                    .padding(.vertical)
                 Book.Image(image: image, title: book.title, cornerRadius: 16)
                     .scaledToFit()
                 

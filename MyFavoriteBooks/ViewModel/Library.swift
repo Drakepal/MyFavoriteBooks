@@ -11,7 +11,7 @@ import SwiftUI
 struct Library {
     var sortedBooks: [Book] { booksCache }
     private var booksCache: [Book] = [
-        .init(title: "The Lightning Thief", author: "Rick Riordan"),
+        .init(title: "The Lightning Thief", author: "Rick Riordan", microReview: "Enthralling."),
         .init(title: "The Sea of Monsters", author: "Rick Riordan"),
         .init(title: "The Titan's Curse", author: "Rick Riordan"),
         .init(title: "The Battle of The Labyrinth", author: "Rick Riordan"),
@@ -19,8 +19,8 @@ struct Library {
         .init(title: "The Son of Neptune", author: "Rick Riordan"),
         .init(title: "The Mark of Athena", author: "Rick Riordan"),
         .init(title: "The House of Hades", author: "Rick Riordan"),
-        .init(title: "The Blood of Olympus", author: "Rick Riordan"),
-        .init(title: "Ready Player One", author: "Ernest Cline")
+        .init(title: "The Blood of Olympus", author: "Rick Riordan", microReview: "Heart Wrenching."),
+        .init(title: "Ready Player One", author: "Ernest Cline", microReview: "Fascinating.")
     ]
     
     var images: [Book: Image] = [:]
