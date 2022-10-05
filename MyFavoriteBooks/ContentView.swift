@@ -13,10 +13,29 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(library.sortedBooks, id: \.self) { book in
-                BookRow(book: book, image: $library.images[book])
+            List {
+
+                Button {
+                    
+                } label: {
+                    Spacer()
+                    
+                    VStack(spacing: 6) {
+                        Image(systemName: "book.circle")
+                            .font(.system(size: 60))
+                        Text("Add New Book")
+                            .font(.title2)
+                    }
+                    Spacer()
+                }
+                .buttonStyle(.borderless)
+                .padding(.vertical, 8)
+                
+                ForEach(library.sortedBooks, id: \.self) { book in
+                    BookRow(book: book, image: $library.images[book])
+                }
+                .navigationTitle("My Favorite Books")
             }
-            .navigationTitle("My Favorite Books")
         }
     }
 }
