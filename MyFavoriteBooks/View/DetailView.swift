@@ -10,9 +10,9 @@ import class PhotosUI.PHPickerViewController
 
 struct DetailView: View {
     @ObservedObject var book: Book
-    @State var showImagePicker = false
+
     @Binding var image: Image?
-    @State var showingDialogue = false
+  
     
     
     var body: some View {
@@ -26,48 +26,11 @@ struct DetailView: View {
                 }
                 TitleAndAuthorStack(book: book, titleFont: .title, authorFont: .title2)
             }
-            VStack {
-                Divider()
-                    .padding(.vertical)
-                TextField("Review...", text: $book.microReview)
-                Divider()
-                    .padding(.vertical)
-                Book.Image(image: image, title: book.title, cornerRadius: 16)
-                    .scaledToFit()
-                
-                HStack {
-                    Spacer()
-                       Spacer()
-                        Button("Update Image"){
-                            showImagePicker = true
-                        
-                    }
-                    Spacer()
-                        if image != nil {
-                            Button("Delete Image"){
-                                showingDialogue = true
-                            }
-                        }
-                    Spacer()
-                }
-                .padding()
-            }
+            ReviewAndImageStack(book: book, image: $image)
             Spacer()
         }
         .padding()
-        .sheet(isPresented: $showImagePicker) {
-            PHPickerViewController.View(image: $image)
-        }
-        .confirmationDialog(
-            "Delete image for \(book.title)?",
-            isPresented: $showingDialogue) {
-                Button("Delete", role: .destructive) {
-                    image = nil }
-                
-            } message: {
-                Text("Delete image for \(book.title)?")
-            
-        }
+       
     }
 }
 
@@ -76,3 +39,5 @@ struct DetailView_Previews: PreviewProvider {
         DetailView(book: .init(), image: .constant(nil))
     }
 }
+
+

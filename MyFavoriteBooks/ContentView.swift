@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var library = Library()
+    @State var addingNewBook = false
     
     
     var body: some View {
@@ -16,7 +17,7 @@ struct ContentView: View {
             List {
 
                 Button {
-                    
+                    addingNewBook = true
                 } label: {
                     Spacer()
                     
@@ -30,6 +31,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderless)
                 .padding(.vertical, 8)
+                .sheet(isPresented: $addingNewBook, content: NewBookView.init)
                 
                 ForEach(library.sortedBooks, id: \.self) { book in
                     BookRow(book: book, image: $library.images[book])
