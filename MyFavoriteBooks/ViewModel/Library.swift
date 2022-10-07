@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import Combine
 
-
-struct Library {
+class Library: ObservableObject {
     var sortedBooks: [Book] { booksCache }
+    
+    func addNewBook(_ book: Book, image: Image?) {
+        booksCache.insert(book, at: 0)
+        images[book] = image
+    }
+    
+    
     private var booksCache: [Book] = [
         .init(title: "The Lightning Thief", author: "Rick Riordan", microReview: "Enthralling."),
         .init(title: "The Sea of Monsters", author: "Rick Riordan"),
@@ -23,6 +30,6 @@ struct Library {
         .init(title: "Ready Player One", author: "Ernest Cline", microReview: "Fascinating.")
     ]
     
-    var images: [Book: Image] = [:]
+    @Published var images: [Book: Image] = [:]
     
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var library = Library()
+    @EnvironmentObject var library: Library
     @State var addingNewBook = false
     
     
@@ -20,7 +20,6 @@ struct ContentView: View {
                     addingNewBook = true
                 } label: {
                     Spacer()
-                    
                     VStack(spacing: 6) {
                         Image(systemName: "book.circle")
                             .font(.system(size: 60))
@@ -34,7 +33,7 @@ struct ContentView: View {
                 .sheet(isPresented: $addingNewBook, content: NewBookView.init)
                 
                 ForEach(library.sortedBooks, id: \.self) { book in
-                    BookRow(book: book, image: $library.images[book])
+                    BookRow(book: book)
                 }
                 .navigationTitle("My Favorite Books")
             }
@@ -43,14 +42,14 @@ struct ContentView: View {
 }
 
 struct BookRow: View {
-    let book: Book
-    @Binding var image: Image?
+    @ObservedObject var book: Book
+    @EnvironmentObject var library: Library
     
     var body: some View {
         NavigationLink(
-            destination: DetailView(book: book, image: $image)) {
+            destination: DetailView(book: book)) {
                 HStack {
-                    Book.Image(image: image, title: book.title, size: 80, cornerRadius: 12)
+                    Book.Image(image: library.images[book], title: book.title, size: 80, cornerRadius: 12)
                     VStack(alignment: .leading) {
                         TitleAndAuthorStack(book: book, titleFont: .title2, authorFont: .title3)
                             
@@ -73,6 +72,7 @@ struct BookRow: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(Library())
     }
 }
 

@@ -10,8 +10,7 @@ import class PhotosUI.PHPickerViewController
 
 struct DetailView: View {
     @ObservedObject var book: Book
-
-    @Binding var image: Image?
+    @EnvironmentObject var library: Library
   
     
     
@@ -26,7 +25,7 @@ struct DetailView: View {
                 }
                 TitleAndAuthorStack(book: book, titleFont: .title, authorFont: .title2)
             }
-            ReviewAndImageStack(book: book, image: $image)
+            ReviewAndImageStack(book: book, image: $library.images[book])
             Spacer()
         }
         .padding()
@@ -36,7 +35,8 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(book: .init(), image: .constant(nil))
+        DetailView(book: .init())
+            .environmentObject(Library())
     }
 }
 
