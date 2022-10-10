@@ -26,8 +26,15 @@ struct DetailView: View {
                 TitleAndAuthorStack(book: book, titleFont: .title, authorFont: .title2)
             }
             ReviewAndImageStack(book: book, image: $library.images[book])
-            Spacer()
+            
         }
+        
+        .onDisappear {
+            withAnimation {
+                library.sortBooks()
+            }
+        }
+        
         .padding()
        
     }

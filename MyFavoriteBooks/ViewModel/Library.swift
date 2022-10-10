@@ -8,8 +8,28 @@
 import SwiftUI
 import Combine
 
+enum Section: CaseIterable {
+    case myFavoriteBooks
+    case finished
+}
+
+
 class Library: ObservableObject {
-    var sortedBooks: [Book] { booksCache }
+    var sortedBooks: [Section: [Book]] {
+        let groupedBooks = Dictionary(grouping: booksCache, by: \.myFavoriteBooks)
+        return Dictionary(uniqueKeysWithValues: groupedBooks.map {
+            (($0.key ? .myFavoriteBooks : .finished), $0.value)
+        })
+    }
+    
+    func sortBooks() {
+        booksCache =
+        sortedBooks
+            .sorted { $1.key == .finished }
+            .flatMap { $0.value }
+        
+        objectWillChange.send()
+    }
     
     func addNewBook(_ book: Book, image: Image?) {
         booksCache.insert(book, at: 0)
