@@ -35,8 +35,11 @@ struct ContentView: View {
                 ForEach(Section.allCases, id: \.self) {
                     SectionView(section: $0)
                 }
-                .navigationTitle("My Favorite Books")
             }
+                .listStyle(.insetGrouped)
+                .toolbar(content: EditButton.init)
+                .navigationTitle("My Favorite Books")
+            
         }
     }
 }
@@ -87,7 +90,45 @@ private struct SectionView: View {
             SwiftUI.Section {
                 ForEach(books) { book in
                     BookRow(book: book)
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                withAnimation {
+                                    book.myFavoriteBooks
+                                        .toggle()
+                                    library.sortBooks()
+                                }
+                            } label: {
+                                book.myFavoriteBooks ? Label("Finished", systemImage:"bookmark")
+                                : Label("Reading List", systemImage: "bookmark.slash")
+                            }
+                            .tint(.accentColor)
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                guard let index = books.firstIndex(where: { $0.id == book .id})
+                                else {
+                                    return
+                                }
+                                withAnimation {
+                                    library.deleteBook(atOffSets: .init(integer: index), section: section)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                 }
+                
+                
+                .onDelete {
+                    IndexSet in
+                    library.deleteBook(atOffSets: IndexSet, section: section)
+                }
+                .onMove {
+                    indexes, newOffset in
+                    library.moveBooks(oldOffSets: indexes, newOffSet: newOffset, section: section)
+                }
+                
+                .labelStyle(.iconOnly)
             } header: {
                 ZStack {
                     Image("BookTextures")

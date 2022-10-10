@@ -16,10 +16,18 @@ enum Section: CaseIterable {
 
 class Library: ObservableObject {
     var sortedBooks: [Section: [Book]] {
-        let groupedBooks = Dictionary(grouping: booksCache, by: \.myFavoriteBooks)
-        return Dictionary(uniqueKeysWithValues: groupedBooks.map {
-            (($0.key ? .myFavoriteBooks : .finished), $0.value)
-        })
+        get {
+            let groupedBooks = Dictionary(grouping: booksCache, by: \.myFavoriteBooks)
+            return Dictionary(uniqueKeysWithValues: groupedBooks.map {
+                (($0.key ? .myFavoriteBooks : .finished), $0.value)
+            })
+        }
+        set {
+            booksCache =
+            newValue
+                .sorted { $1.key == .finished }
+                .flatMap { $0.value }
+        }
     }
     
     func sortBooks() {
@@ -36,8 +44,25 @@ class Library: ObservableObject {
         images[book] = image
     }
     
+    func deleteBook(atOffSets offsets: IndexSet, section: Section) {
+        let booksBeforeDeletion = booksCache
+        
+        
+        sortedBooks[section]?.remove(atOffsets: offsets)
+        
+        for change in booksCache.difference(from: booksBeforeDeletion) {
+            if case .remove(_, let deletedBook, _) = change {
+                images[deletedBook] = nil
+            }
+        }
+    }
     
-    private var booksCache: [Book] = [
+    func moveBooks(oldOffSets: IndexSet, newOffSet: Int, section: Section) {
+        sortedBooks[section]?.move(fromOffsets: oldOffSets, toOffset: newOffSet)
+    }
+    
+    
+    @Published private var booksCache: [Book] = [
         .init(title: "The Lightning Thief", author: "Rick Riordan", microReview: "Enthralling."),
         .init(title: "The Sea of Monsters", author: "Rick Riordan"),
         .init(title: "The Titan's Curse", author: "Rick Riordan"),
